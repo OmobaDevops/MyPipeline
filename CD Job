@@ -1,0 +1,26 @@
+2. Continous Deployment CD job: (CORRECT)
+
+deploy_to_docker 
+
+pipeline{
+  agent any 
+  stages{
+    stage('UnDeploy'){
+      steps{
+        sh "echo UNDEPLOYING existing application"
+        sh "docker rm -f webapp"
+      }
+    }
+    stage('deployment'){
+      steps{
+        sh "echo application ready for deployment"
+        sh "docker run -d -p 8000:8080 --name webapp mylandmarktech/maven-web-app"
+      }
+    }
+    stage('emailNotification'){
+      steps{
+        sh "echo deployment successful"
+      }
+    }
+  }
+}
